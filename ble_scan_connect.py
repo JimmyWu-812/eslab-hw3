@@ -8,7 +8,9 @@ class ScanDelegate(DefaultDelegate):
                 if isNewDev:                                                 
                         print ("Discovered device", dev.addr)                
                 elif isNewData:                                              
-                        print ("Received new data from", dev.addr)           
+                        print ("Received new data from", dev.addr)
+        def handleNotification(self, cHandle, data):
+                print(data)
 scanner = Scanner().withDelegate(ScanDelegate())                             
 devices = scanner.scan(10.0)                                                 
 n=0                                                                          
@@ -31,6 +33,7 @@ while True:
         break
     except:
         pass
+dev.setDelegate(ScanDelegate())
 #for ch in testService.getCharacteristics():
 #                                                                            
 print ("Services...")                                                        
@@ -72,5 +75,9 @@ for i in descriptors:
         
         except:
             pass
+
+while True:
+    if dev.waitForNotifications(10.0):
+        pass
 
 dev.disconnect()
